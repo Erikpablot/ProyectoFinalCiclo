@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+       <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Categoria</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+        <base href="/"/>
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+        
+        <!-- definen estructuras permiten desde clases crear columnas etc. -->
+        <script type="text/javascript" src="/js/categoria.js"></script>
+         <style> body{background:#eee; } </style>
+    </head>
+    <div class="container"> <!--El container sirve para el comportamiento de mi pagina dependiendo del tamaño de la misma-->
+        <!--Bosstrao utiliza 12 columnas por defecto -->
+            <h1>Categorias</h1>
+<!-- <img src="deadpool.gif" class="rounded mx-auto d-block" alt="DEADPOOL">-->
+            <button type="button" class="btn btn-success" onclick="nuevo()">Nueva Categoria</button>
+
+            <div id="tabla"></div>
+
+
+            <!-- Modal para el formulario de guardar o actualizar -->
+            <div class="modal fade" id="modalCategoria" tabindex="-1" role="dialog">   <!-- las ventanas modales noa aparecen hasta que nosostros le digamos -->
+                <!-- la clase fade sirve para q cuando aparezca sea de manera suave -->
+                <div class="modal-dialog" role="document"><!<!-- esto es para crear una ventanita -->
+                    
+                    <div class="modal-content">
+                        <div class="modal-header"><!-- el modal header tiene un titulo  -->
+                            <h5 class="modal-title" id="tituloModalCategoria">Titulo Categoria</h5>
+                        </div>
+                        <div class="modal-body"><!-- el modal body tiene el cuerpo de la ventanita -->
+                            <div class="row"> <!-- dentro de la clse row (fila)tenemos estas clases para manejar los espacios  -->
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="id" class="form-label">ID</label>
+                                    <input type="text" class="form-control" id="id" placeholder="Id de Categoria" disabled>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Nombre de Categoria">
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="description" class="form-label">DESCRIPCION</label>
+                                    <input type="text" class="form-control" id="description" placeholder="Descripcion de Categoria">
+                                                   <!-- la clase form control sirve para que todo se vea mas bonito  -->
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer"> <!-- el modal footer van los botones -->
+                            <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar</button>
+                            <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- fin del modal de formulario -->
+
+            <!-- modal de mensaje de confirmacion -->
+            <div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloModalCategoria">Mensaje</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p id="mensaje">
+                                
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="cerrarModalMensaje()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- fin del modal de mensaje de confirmacion -->
+                        <a href="index.html" class="btn btn-secondary">Vovler</a>
+                        <hr/>
+        </div>
+    </body>
+    
+    
+    
+</html>

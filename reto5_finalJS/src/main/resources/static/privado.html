@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     
+    <title>Reto3</title>
+</head>
+<body>
+
+    <h1> Categorias</h1>
+    <div id="resultado1"></div>
+    <button onclick="traerInformacionCategorias()" > Consultar Categorias</button>
+    
+    <div>
+        <input type="text" id="Cname" placeholder="name">
+        <input type="text" id="Cdescription" placeholder="description">
+
+        
+    </div>
+    <button onclick="guardarInformacionCategorias()">Guardar Categorias</button>
+
+
+
+
+    <h1> Computadores</h1>
+    <div id="resultado2"></div>
+    <button onclick="traerInformacionComputer()" > Consultar Computadores</button>
+    
+    <div>
+        <input type="text" id="Bname" placeholder="name">
+        <input type="text" id="Bbrand" placeholder="brand">
+        <input type="number" id="Byear" placeholder="year">
+        <input type="text" id="Bdescription" placeholder="description">    
+        
+
+    </div>
+    <button onclick="guardarInformacionComputer()">Guardar Computadores</button>
+
+
+
+    <h1> Clientes</h1>
+    <div id="resultado3"></div>
+    <button onclick="traerInformacionClientes()" > Consultar Clientes</button>
+    
+    <div>
+        <input type="text" id="CLname" placeholder="name">
+        <input type="text" id="CLemail" placeholder="email">
+        <input type="text" id="CLpassword" placeholder="password">
+        <input type="number" id="CLage" placeholder="age">  
+    </div>
+    <button onclick="guardarInformacionClientes()">Guardar Clientes</button>
+</body>
+
+
+
+<h1> Mensajes</h1>
+<div id="resultado4"></div>
+<button onclick="traerInformacionMensaje()" > Consultar Mensajes</button>
+
+<div>
+    <input type="text" id="Mensajes" placeholder="messageText">
+</div>
+<button onclick="guardarInformacionMensaje()">Guardar Mensaje</button>
+</body>
+
+
+<h1> Reservaciones</h1>
+<div id="resultado5"></div>
+<button onclick="traerInformacionReservaciones()" > Consultar Reservaciones</button>
+
+<div>
+    <input type="date" id="StartDate" placeholder="StartDate">
+    <input type="date" id="devolutionDate" placeholder="devolutionDate">
+    <input type="text" id="status" placeholder="status" >
+
+
+</div>
+<button onclick="guardarInformacionReservaciones()">Guardar Reservacion</button>
+</body>
+ <script type="text/javascript">
+
+
+
+
+function traerInformacionCategorias(){
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Category/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuesta(respuesta);
+        }
+    });
+}
+
+function pintarRespuesta(respuesta){
+
+
+
+    let myTable="<table>";
+    for(i=0;i<respuesta.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>"+respuesta[i].name+"</td>";
+        myTable+="<td>"+respuesta[i].description+"</td>";
+        myTable+="<td> <button onclick=' actualizarInformacionCategorias("+respuesta[i].id+")'>Actualizar</button>";
+        myTable+="<td> <button onclick='borrarCategoria("+respuesta[i].id+")'>Borrar</button>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultado1").html(myTable);
+}
+
+function guardarInformacionCategorias(){
+    let var2 = {
+        name:$("#Cname").val(),
+        description:$("#Cdescription").val()
+        };
+      
+        $.ajax({
+        type:'POST',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'JSON',
+        data: JSON.stringify(var2),
+        
+        url:"http://150.136.49.14:8080/api/Category/save",
+       
+        
+        success:function(response) {
+                console.log(response);
+            console.log("Se guardo correctamente");
+            alert("Se guardo correctamente");
+            window.location.reload()
+    
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+              window.location.reload()
+            alert("No se guardo correctamente");
+    
+    
+        }
+        });
+
+}
+
+function actualizarInformacionCategorias(idElemento){
+    let myData={
+        id:idElemento,
+        name:$("#Cname").val(),
+        description:$("#Cdescription").val()
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Category/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            $("#id").val("");
+            $("#Cname").val("");
+            $("#Cdescription").val("");
+            traerInformacionCategorias();
+            alert("se ha Actualizado correctamente la categoria")
+        }
+    });
+
+}
+
+function borrarCategoria(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Category/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            traerInformacionCategorias();
+            alert("Se ha Eliminado.")
+        }
+    });
+
+}
+
+
+
+
+
+
+///////////////////Computer//////////////////////////////////////
+function traerInformacionComputer(){
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Computer/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaComputer(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaComputer(respuesta){
+
+    let myTable="<table>";
+    for(i=0;i<respuesta.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>"+respuesta[i].name+"</td>";
+        myTable+="<td>"+respuesta[i].brand+"</td>";
+        myTable+="<td>"+respuesta[i].year+"</td>";
+        myTable+="<td>"+respuesta[i].description+"</td>";
+        myTable+="<td> <button onclick=' actualizarInformacionComputer("+respuesta[i].id+")'>Actualizar</button>";
+        myTable+="<td> <button onclick='borrarComputer("+respuesta[i].id+")'>Borrar</button>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultado2").html(myTable);
+}
+
+function guardarInformacionComputer(){
+    let var3 = {
+        name:$("#Bname").val(),
+        brand:$("#Bbrand").val(),
+        year:$("#Byear").val(),
+        description:$("#Bdescription").val(),
+        
+        };
+      
+        $.ajax({
+        type:'POST',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'JSON',
+        data: JSON.stringify(var3),
+        
+        url:"http://150.136.49.14:8080/api/Computer/save",
+       
+        
+        success:function(response) {
+                console.log(response);
+            console.log("Se guardo correctamente");
+            alert("Se guardo correctamente");
+            window.location.reload()
+    
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+              window.location.reload()
+            alert("No se guardo correctamente");
+    
+    
+        }
+        });
+
+}
+
+function actualizarInformacionComputer(idElemento){
+    let myData={
+        id:idElemento,
+        name:$("#Bname").val(),
+        brand:$("#Bbrand").val(),
+        year:$("#Byear").val(),
+        description:$("#Bdescription").val(),
+        
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Computer/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            $("#id").val("");
+            $("#Bname").val("");
+            $("#Bbrand").val("");
+            $("#Byear").val("");
+            $("#Bdescription").val("");
+            
+            traerInformacionComputer();
+            alert("se ha Actualizado correctamente la categoria")
+        }
+    });
+
+}
+
+function borrarComputer(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Computer/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            traerInformacionComputer();
+            alert("Se ha Eliminado.")
+        }
+    });
+
+}
+
+
+//////////////////////Clientes//////////////////////////////////
+function traerInformacionClientes(){
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Client/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaClientes(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaClientes(respuesta){
+
+    let myTable="<table>";
+    for(i=0;i<respuesta.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>"+respuesta[i].email+"</td>";
+        myTable+="<td>"+respuesta[i].password+"</td>";
+        myTable+="<td>"+respuesta[i].name+"</td>";
+        myTable+="<td>"+respuesta[i].age+"</td>";
+        myTable+="<td> <button onclick=' actualizarInformacionCliente("+respuesta[i].idClient+")'>Actualizar</button>";
+        myTable+="<td> <button onclick='borrarCliente("+respuesta[i].idClient+")'>Borrar</button>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultado3").html(myTable);
+}
+
+function guardarInformacionClientes(){
+    let var4 = {
+        email:$("#CLemail").val(),
+        password:$("#CLpassword").val(),
+        name:$("#CLname").val(),
+        age:$("#CLage").val(),
+        };
+      
+        $.ajax({
+        type:'POST',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'JSON',
+        data: JSON.stringify(var4),
+        
+        url:"http://150.136.49.14:8080/api/Client/save",
+       
+        
+        success:function(response) {
+                console.log(response);
+            console.log("Se guardo correctamente");
+            alert("Se guardo correctamente");
+            window.location.reload()
+    
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+              window.location.reload()
+            alert("No se guardo correctamente");
+    
+    
+        }
+        });
+
+}
+
+
+function actualizarInformacionCliente(idElemento){
+    let myData={
+        idClient:idElemento,
+        name:$("#CLname").val(),
+        email:$("#Clemail").val(),
+        password:$("#CLpassword").val(),
+        age:$("#CLage").val()
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Client/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            $("#id").val("");
+            $("#CLname").val("");
+            $("#Clemail").val("");
+            $("#CLpassword").val("");
+            $("#CLage").val("");
+            traerInformacionClientes();
+            alert("se ha Actualizado correctamente el cliente")
+        }
+    });
+
+}
+
+function borrarCliente(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Client/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            traerInformacionClientes();
+            alert("Se ha Eliminado.")
+        }
+    });
+
+}
+
+
+
+
+////////////////Menssages/////////////////////
+
+function traerInformacionMensaje(){
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Message/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaMensaje(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaMensaje(respuesta){
+
+    let myTable="<table>";
+    for(i=0;i<respuesta.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>"+respuesta[i].messageText+"</td>";
+        myTable+="<td> <button onclick=' actualizarInformacionMensaje("+respuesta[i].idMessage+")'>Actualizar</button>";
+        myTable+="<td> <button onclick='borrarMensaje("+respuesta[i].idMessage+")'>Borrar</button>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultado4").html(myTable);
+}
+
+function guardarInformacionMensaje(){
+    let var5 = {
+        messageText:$("#Mensajes").val()
+        };
+      
+        $.ajax({
+        type:'POST',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'JSON',
+        data: JSON.stringify(var5),
+        
+        url:"http://150.136.49.14:8080/api/Message/save",
+       
+        
+        success:function(response) {
+                console.log(response);
+            console.log("Se guardo correctamente");
+            alert("Se guardo correctamente");
+            window.location.reload()
+    
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+              window.location.reload()
+            alert("No se guardo correctamente");
+    
+    
+        }
+        });
+
+}
+
+
+function actualizarInformacionMensaje(idElemento){
+    let myData={
+        idMessage:idElemento,
+        messageText:$("#Mensajes").val(),
+
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Message/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            $("#id").val("");
+            $("#Mensajes").val("");
+            traerInformacionMensaje();
+            alert("se ha Actualizado correctamente el cliente")
+        }
+    });
+
+}
+
+function borrarMensaje(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Message/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            traerInformacionMensaje();
+            alert("Se ha Eliminado.")
+        }
+    });
+
+}
+
+
+
+
+/////////////////Reservaciones//////////////////
+
+function traerInformacionReservaciones(){
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Reservation/all",
+        type:"GET",
+        datatype:"JSON",
+        success:function(respuesta){
+            console.log(respuesta);
+            pintarRespuestaReservaciones(respuesta);
+        }
+    });
+}
+
+function pintarRespuestaReservaciones(respuesta){
+
+    let myTable="<table>";
+    for(i=0;i<respuesta.length;i++){
+        myTable+="<tr>";
+        myTable+="<td>"+respuesta[i].startDate+"</td>";
+        myTable+="<td>"+respuesta[i].devolutionDate+"</td>";
+        myTable+="<td>"+respuesta[i].status+"</td>";
+        myTable+="<td> <button onclick=' actualizarInformacionReservaciones("+respuesta[i].idReservation+")'>Actualizar</button>";
+        myTable+="<td> <button onclick='borrarReservaciones("+respuesta[i].idReservation+")'>Borrar</button>";
+        myTable+="</tr>";
+    }
+    myTable+="</table>";
+    $("#resultado5").html(myTable);
+}
+
+function guardarInformacionReservaciones(){
+    let var10 = {
+        startDate:$("#StartDate").val(),
+        devolutionDate:$("#devolutionDate").val(),
+        status:$("#status").val()
+        
+        };
+      
+        $.ajax({
+        type:'POST',
+        contentType: "application/json; charset=utf-8",
+        dataType: 'JSON',
+        data: JSON.stringify(var10),
+        
+        url:"http://150.136.49.14:8080/api/Reservation/save",
+       
+        
+        success:function(response) {
+                console.log(response);
+            console.log("Se guardo correctamente");
+            alert("Se guardo correctamente");
+            window.location.reload()
+    
+        },
+        
+        error: function(jqXHR, textStatus, errorThrown) {
+              window.location.reload()
+            alert("No se guardo correctamente");
+    
+    
+        }
+        });
+
+}
+
+
+
+function actualizarInformacionReservaciones(idElemento){
+    let myData={
+        idReservation:idElemento,
+        startDate:$("#StartDate").val(),
+        devolutionDate:$("#devolutionDate").val(),
+        status:$("#status").val()
+
+    };
+    console.log(myData);
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Reservation/update",
+        type:"PUT",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            $("#id").val("");
+            $("#StartDate").val("");
+            $("#devolutionDate").val("");
+            $("#status").val("");
+
+            traerInformacionReservaciones();
+            alert("se ha Actualizado correctamente el cliente")
+        }
+    });
+
+}
+
+function borrarReservaciones(idElemento){
+    let myData={
+        id:idElemento
+    };
+    let dataToSend=JSON.stringify(myData);
+    $.ajax({
+        url:"http://150.136.49.14:8080/api/Reservation/"+idElemento,
+        type:"DELETE",
+        data:dataToSend,
+        contentType:"application/JSON",
+        datatype:"JSON",
+        success:function(respuesta){
+            $("#resultado").empty();
+            traerInformacionReservaciones();
+            alert("Se ha Eliminado.")
+        }
+    });
+
+}
+
+
+
+
+    </script>
+</html>

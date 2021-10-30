@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Mensajes</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+        <base href="/"/>
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="/js/mensaje.js"></script>
+      <style> body{background:#eee; } </style>
+    </head>
+    <body>
+        <h1>Mensajes</h1>
+        <div class="container">
+
+            <button type="button" class="btn btn-success" onclick="nuevo()">Nuevo Mensaje</button>
+            
+            <div id="tabla"></div>
+
+
+            <div class="modal fade" id="modalProducto" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloModalProducto">Titulo</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="idMessage" class="form-label">Id de mensajes</label>
+                                    <input type="text" class="form-control" id="idMessage" placeholder="Id del reservacion" disabled>
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="messageText" class="form-label">Mensaje</label>
+                                    <input type="text" class="form-control" id="messageText" placeholder="Mensaje">
+                                </div>
+                               
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="idCompu" class="form-label">Computador</label>
+                                    <div id="computador-select"></div>
+                                    
+                                </div>
+                                <div class="col-sm-12 col-lg-6">
+                                    <label for="idCliente" class="form-label">Cliente</label>
+                                    <div id="cliente-select"></div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar</button>
+                            <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloModalProducto">Mensaje</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p id="mensaje">
+
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" onclick="cerrarModalMensaje()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                        <a href="index.html" class="btn btn-secondary">Vovler</a>
+                        <hr/>
+        </div>
+
+    </body>
+
+</html>

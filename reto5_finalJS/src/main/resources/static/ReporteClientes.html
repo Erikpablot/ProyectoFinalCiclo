@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+       <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <title>Reportes</title>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width"/>
+        <base href="/"/>
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+        <style> body{background:#eee; } </style>
+        <!-- definen estructuras permiten desde clases crear columnas etc. -->
+        <script type="text/javascript" src="/js/ReporteClientes.js"></script>
+        
+     <h1>Reporte de Ventas</h1>
+
+        <div class="container">
+            Inicio <input type="date" id="fechainicial">
+            Final  <input type="date" id="fechafinal">
+            <button class="btn btn-primary" style="margin-right:50px" onclick="consultarComprasxFecha()" >Consultar por fecha</button>
+            
+            <button class="btn btn-primary" onclick="consultarComprasxCliente()" >Consultar por Clientes Top</button>
+            
+            <button class="btn btn-primary" onclick="consultarEstado()" >Consultar Estado de Reservacion</button>
+        </div>
+        <div id="tabla"></div>
+        <hr/>
+        <br/><br/><br/> <a class="btn btn-secondary" href="index.html">Volver al inicio</a>
+    </body>
+</html>
+    
+    
